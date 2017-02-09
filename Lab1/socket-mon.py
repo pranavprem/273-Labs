@@ -1,3 +1,4 @@
+"""Code for Lab 1 CMPE 273 Under Suthu Aung Spring 2017 San Jose State University'"""
 import psutil
 connections = psutil.net_connections()
 final = []
@@ -5,28 +6,26 @@ finaldict = {}
 #print "----------------"
 
 for connection in connections:
-	if connection.pid != None and connection.laddr!= None and connection.raddr!= None:
-		final.append(connection)
+    if connection.pid != None and str(connection.laddr) != "()" and str(connection.raddr) != "()":
+        final.append(connection)
 
 for connection in final:
-	if connection.pid in finaldict:
-		finaldict[connection.pid] = finaldict[connection.pid] + 1
-	else:
-		finaldict[connection.pid] = 1
+    if connection.pid in finaldict:
+        finaldict[connection.pid] = finaldict[connection.pid] + 1
+    else:
+        finaldict[connection.pid] = 1
 
-sortedDict = sorted (finaldict.items(), key= lambda x: x[1], reverse=True)
-print sortedDict
+sortedDict = sorted(finaldict.items(), key = lambda x: x[1], reverse = True)
+#print sortedDict
 
 
-
-print "---------------------"
+#print "---------------------"
 print '"pid","laddr","raddr","status"'
 
 
-for dict in sortedDict:
-	for connection in final:
-		if dict[0] == connection.pid:
-			ladder = str(connection.laddr).split("(")[1].split(")")[0].split(",")
-			radder = str(connection.raddr).split("(")[1].split(")")[0].split(",")
-			if len(radder)>1 and len(ladder	)>1:
-				print '"' + str(connection.pid)+'","'+ladder[0].replace('"',"'")+"@"+ladder[1].strip()+'","'+radder[0].replace('"',"'")+"@"+radder[1].strip()+'","'+str(connection.status)+'"'
+for sortedDic in sortedDict:
+    for connection in final:
+        if sortedDic[0] == connection.pid:
+            laddrFinal = str(connection.laddr).replace("(", "").replace(")","").replace("'","").split(",")
+            raddrFinal = str(connection.raddr).replace("(", "").replace(")","").replace("'","").split(",")
+            print '"' + str(connection.pid)+'","'+laddrFinal[0]+"@"+laddrFinal[1].strip()+'","'+raddrFinal[0]+"@"+raddrFinal[1].strip()+'","'+str(connection.status)+'"'
