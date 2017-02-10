@@ -1,6 +1,6 @@
 """Code for Lab 1 CMPE 273 Under Suthu Aung Spring 2017 San Jose State University'"""
 import psutil
-connections = psutil.net_connections()
+connections = psutil.net_connections("tcp")
 final = []
 finaldict = {}
 #print "----------------"
